@@ -1,0 +1,33 @@
+WITH DateRange AS (
+    -- Создаем временную таблицу с диапазоном дат для расчета
+    SELECT DATE('2025-02-01') as start_date,
+           DATE('2025-03-01') as end_date
+),
+RoomNights AS (
+    -- Вычисляем общее количество номеров-ночей за период
+    SELECT 
+        (DATEDIFF(
+            (SELECT end_date FROM DateRange),
+            (SELECT start_date FROM DateRange)
+        ) + 1) * COUNT(room_number) as total_room_nights
+    FROM Rooms
+),
+OccupiedNights AS (
+    -- Вычисляем количество занятых номеров-ночей
+    SELECT COUNT(*) as occupied_nights
+    FROM Bookings b
+    CROSS JOIN DateRange d
+    WHERE b.check_in_date <= d.end_date
+    AND (b.check_out_date >= d.start_date OR b.check_out_date IS NULL)
+)
+-- Вычисляем процент загрузки
+SELECT 
+    ROUND(
+        (occupied_nights * 100.0) / total_room_nights,
+        2
+    ) as occupancy_percentage,
+    occupied_nights as sold_nights,
+    total_room_nights as total_available_nights,
+    (SELECT start_date FROM DateRange) as period_start,
+    (SELECT end_date FROM DateRange) as period_end
+FROM RoomNights, OccupiedNights;
