@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+/* Стили для шапки */
+.header {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_admin {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.header_link {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.header_link a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.header_link a:hover {
+    color: #ff0000;
+}
+
+.header_login {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.header_login:hover {
+    color: #ff0000;
+}
+
+/* Стили для секции клиентов */
+.clients {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.clients_title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.client_add {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.client_add_form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #000000;
+    font-size: 14px;
+}
+
+.client_add_form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.required {
+    color: #ff0000;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.add_client {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.add_client:hover {
+    background-color: #333;
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+th {
+    background-color: #e8e8e8;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td a {
+    color: #4CAF50;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+td a:hover {
+    color: #318534;
+}
+
