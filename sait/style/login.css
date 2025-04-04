@@ -120,7 +120,6 @@ button {
     border: none;
     border-radius: 5px;
     font-size: 14px;
-    text-transform: lowercase;
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 10px;
