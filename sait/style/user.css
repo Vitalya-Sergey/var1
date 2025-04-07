@@ -7,16 +7,80 @@
 
 body {
     background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
+/* Стили для шапки */
+.header {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_admin {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.header_login {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.header_login:hover {
+    color: #ff0000;
+}
+
+/* Стили для основного контента */
+.content {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.content_title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+/* Стили для карточек */
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card_title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.card_text {
+    color: #666;
+    line-height: 1.5;
+} 
+/*Смена пароля*/
 .login-container {
     width: 100%;
     max-width: 450px;
     padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-box {
