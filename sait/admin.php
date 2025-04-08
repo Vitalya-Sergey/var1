@@ -1,3 +1,24 @@
+<?php
+session_start();
+    $db = new PDO(
+        'mysql:host=localhost;dbname=module;charset=utf8', 
+        'root',
+         null, 
+        [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+    );
+    if (!isset($_SESSION['token']) || empty($_SESSION['token'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $token = $_SESSION['token'];
+    $user = $db->query("SELECT id, type, name, surname, blocked, latest FROM users WHERE token = '$token'")->fetchAll();
+
+    if (empty($user)) {
+        header("Location: login.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

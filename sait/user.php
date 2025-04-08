@@ -12,18 +12,24 @@ session_start();
     }
 
     $token = $_SESSION['token'];
-    $user = $db->query("SELECT id, type, name, surname FROM users WHERE token = '$token'")->fetchAll();
+    $user = $db->query("SELECT id, type, name, surname, blocked, latest FROM users WHERE token = '$token'")->fetchAll();
 
     if (empty($user)) {
         header("Location: login.php");
         exit();
     }
 
+    // Update latest activity
+    $stmt = $db->prepare("UPDATE users SET latest = NOW() WHERE id = ?");
+    $stmt->execute([$user[0]['id']]);
+
     $user_type = $user[0]['type'];
     if ($user_type === 'admin') {
         header("Location: admin.php");
         exit();
     }
+
+    $isBlocked = $user[0]['blocked'] === '1';
 
 if (isset($_GET['do']) && $_GET['do'] === 'logout') {
     $stmt = $db->prepare("UPDATE users SET token = NULL WHERE token = ?");
@@ -89,21 +95,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Отель</h1>
             <div class="login-form">
                 <h2>Сменить пароль</h2>
-                <form action="" method="post">
-                    <div class="form-group">
-                        <label for="old_password">Старый пароль: <span class="required">это поле обязательное*</span></label> 
-                        <input type="password" name="old_password" placeholder="введите старый пароль" required>
+                <?php if ($isBlocked): ?>
+                    <div class="error-message">
+                        Пользователь заблокирован, обратитесь к администрации
                     </div>
-                    <div class="form-group">
-                        <label for="new_password">Новый пароль: <span class="required">это поле обязательное*</span></label> 
-                        <input type="password" name="new_password" placeholder="введите новый пароль" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm_password">Подтвердите пароль: <span class="required">это поле обязательное*</span></label> 
-                        <input type="password" name="confirm_password" placeholder="подтвердите пароль" required>
-                    </div>
+                <?php else: ?>
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label for="old_password">Старый пароль: <span class="required">это поле обязательное*</span></label> 
+                            <input type="password" name="old_password" placeholder="введите старый пароль" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">Новый пароль: <span class="required">это поле обязательное*</span></label> 
+                            <input type="password" name="new_password" placeholder="введите новый пароль" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Подтвердите пароль: <span class="required">это поле обязательное*</span></label> 
+                            <input type="password" name="confirm_password" placeholder="подтвердите пароль" required>
+                        </div>
                         <button type="submit">Сменить пароль</button>
-                </form>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>

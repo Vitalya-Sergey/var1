@@ -35,7 +35,8 @@ CREATE TABLE `users` (
   `blocked` enum('0','1') DEFAULT NULL,
   `token` varchar(256) DEFAULT NULL,
   `login` varchar(256) NOT NULL,
-  `password` varchar(256) NOT NULL
+  `password` varchar(256) NOT NULL,
+  `latest` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

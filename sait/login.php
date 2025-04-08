@@ -10,9 +10,13 @@ session_start();
     if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
        $token = $_SESSION['token'];
 
-    $user = $db->query("SELECT id, type FROM users WHERE token = '$token'")->fetchAll();
+    $user = $db->query("SELECT id, type, latest FROM users WHERE token = '$token'")->fetchAll();
     
     if (!empty($user)) {
+        // Update latest activity
+        $stmt = $db->prepare("UPDATE users SET latest = NOW() WHERE id = ?");
+        $stmt->execute([$user[0]['id']]);
+
         $user_type = $user[0]['type'];
         $isAdmin = $user_type === 'admin';
         $isUser = $user_type === 'user';
@@ -30,13 +34,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login']) && isset($_P
         exit();
     }
 
-    $user = $db->query("SELECT id, type FROM users WHERE login = '$login' AND password = '$password'")->fetchAll();
+    $user = $db->query("SELECT id, type, blocked, amountAttems, latest FROM users WHERE login = '$login' AND password = '$password'")->fetchAll();
+    
     if (!empty($user)) {
+        // Проверка на блокировку
+        if ($user[0]['blocked'] === '1') {
+            echo "Пользователь заблокирован, обратитесь к администрации";
+            exit();
+        }
+
+        // Проверка даты последней активности
+        if ($user[0]['latest'] !== null) {
+            $lastActivity = new DateTime($user[0]['latest']);
+            $currentDate = new DateTime();
+            $interval = $lastActivity->diff($currentDate);
+            
+            if ($interval->m >= 1) {
+                $stmt = $db->prepare("UPDATE users SET blocked = '1' WHERE id = ?");
+                $stmt->execute([$user[0]['id']]);
+                echo "Пользователь заблокирован из-за неактивности более месяца";
+                exit();
+            }
+        }
+
+        // Сброс количества попыток при успешном входе
+        $stmt = $db->prepare("UPDATE users SET amountAttems = 0, latest = NOW() WHERE id = ?");
+        $stmt->execute([$user[0]['id']]);
+
         $token = bin2hex(random_bytes(16));
         $userId = $user[0]['id'];
         
         $stmt = $db->prepare("UPDATE users SET token = ? WHERE id = ?");
         $stmt->execute([$token, $userId]);
+ 
         $_SESSION['token'] = $token;
 
         if ($user[0]['type'] === 'admin') {
@@ -46,6 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login']) && isset($_P
         }
         exit();
     } else {
+        // Увеличение количества попыток при неудачном входе
+        $stmt = $db->prepare("UPDATE users SET amountAttems = amountAttems + 1 WHERE login = ?");
+        $stmt->execute([$login]);
+        
+        // Проверка количества попыток
+        $attempts = $db->query("SELECT amountAttems FROM users WHERE login = '$login'")->fetchAll();
+        if (!empty($attempts) && $attempts[0]['amountAttems'] >= 3) {
+            $stmt = $db->prepare("UPDATE users SET blocked = '1' WHERE login = ?");
+            $stmt->execute([$login]);
+            echo "Пользователь заблокирован из-за превышения количества попыток входа";
+            exit();
+        }
+        
         echo "Ошибка: неверный логин или пароль";
         exit();
     }
