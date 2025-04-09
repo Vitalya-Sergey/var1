@@ -146,3 +146,138 @@ td a:hover {
     color: #318534;
 }
 
+/* Action buttons styles */
+.action-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+}
+
+.action-button.edit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.action-button.edit:hover {
+    background-color: #45a049;
+}
+
+.action-button.block {
+    background-color: #f44336;
+    color: white;
+}
+
+.action-button.block:hover {
+    background-color: #da190b;
+}
+
+.action-button.unblock {
+    background-color: #2196F3;
+    color: white;
+}
+
+.action-button.unblock:hover {
+    background-color: #0b7dda;
+}
+
+/* Form styles */
+.client_add_form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.client_add_form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.client_add_form input,
+.client_add_form select {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.client_add_form input:focus,
+.client_add_form select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.required {
+    color: #f44336;
+}
+
+.add_client {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add_client:hover {
+    background-color: #45a049;
+}
+
+.cancel_edit {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.cancel_edit:hover {
+    background-color: #da190b;
+}
+
+/* Table styles */
+.clients_list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.clients_list th,
+.clients_list td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.clients_list th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+.clients_list tr:hover {
+    background-color: #f5f5f5;
+}
+
+.clients_list td:last-child {
+    white-space: nowrap;
+}
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Апр 04 2025 г., 03:59
+-- Время создания: Апр 09 2025 г., 04:44
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -36,16 +36,18 @@ CREATE TABLE `users` (
   `token` varchar(256) DEFAULT NULL,
   `login` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `latest` datetime DEFAULT NULL
+  `latest` datetime DEFAULT NULL,
+  `amountAttems` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `surname`, `type`, `blocked`, `token`, `login`, `password`) VALUES
-(1, 'Пётр', 'Петрович', 'user', '', NULL, 'pe', '123'),
-(2, 'Кирилл', 'Пушкин', 'admin', '', NULL, 'ki', '123');
+INSERT INTO `users` (`id`, `name`, `surname`, `type`, `blocked`, `token`, `login`, `password`, `latest`, `amountAttems`) VALUES
+(1, 'Пётр', 'Петрович', 'user', '0', NULL, 'pep', '123', '2025-04-09 09:14:26', 0),
+(2, 'Кирилл', 'Пушкин', 'admin', '', '59c63b5970d8801bd0dbe44aea1590c8', 'ki', '123', '2025-04-09 09:35:10', 0),
+(3, 'Матвей', 'Максимов', 'user', '0', NULL, 'mam', '$2y$10$Y50VKuBtqrZc4Cvo74YNcOOo2iZlj.hfysqDa7Pk2BR2M5Et5iqEy', NULL, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -65,7 +67,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
